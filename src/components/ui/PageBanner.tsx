@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 interface PageBannerProps {
   image: string;
@@ -8,17 +9,30 @@ interface PageBannerProps {
 }
 
 const PageBanner = ({ image, title, subtitle, description }: PageBannerProps) => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
+
   return (
-    <section className="relative h-[50vh] min-h-[400px] max-h-[500px] pt-20">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
+    <section ref={ref} className="relative h-[50vh] min-h-[400px] max-h-[500px] pt-20 overflow-hidden">
+      {/* Background Image with Parallax */}
+      <motion.div 
+        className="absolute inset-0"
+        style={{ y }}
+      >
+        <motion.img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-[130%] object-cover"
+          style={{ opacity }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center justify-center">
