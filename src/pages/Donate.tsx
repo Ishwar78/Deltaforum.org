@@ -5,16 +5,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, Shield, CheckCircle } from "lucide-react";
+import { Heart, Shield, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+const RAZORPAY_KEY_ID = "rzp_test_Rxk6vhcRylLMAB";
+
 const presetAmounts = [500, 1000, 2500, 5000, 10000];
+
+const causeLabels: Record<string, string> = {
+  tree: "Tree Plantation",
+  girls: "Girls' Education",
+  women: "Women Empowerment",
+  environment: "Environmental Protection",
+  general: "General Fund",
+};
 
 const DonatePage = () => {
   const { toast } = useToast();
   const [amount, setAmount] = useState<number | string>(1000);
   const [customAmount, setCustomAmount] = useState("");
   const [cause, setCause] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,12 +49,100 @@ const DonatePage = () => {
     setAmount(value ? parseInt(value) : "");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const getFinalAmount = () => {
+    return typeof amount === "number" ? amount : parseInt(customAmount) || 0;
+  };
+
+  const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Thank you for your generosity!",
-      description: "Payment integration coming soon. Your support means the world to us.",
-    });
+    
+    const finalAmount = getFinalAmount();
+    
+    if (finalAmount < 1) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid donation amount.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.name || !formData.email || !formData.phone) {
+      toast({
+        title: "Missing Details",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!cause) {
+      toast({
+        title: "Select a Cause",
+        description: "Please select a cause for your donation.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+
+    const options = {
+      key: RAZORPAY_KEY_ID,
+      amount: finalAmount * 100, // Razorpay expects amount in paise
+      currency: "INR",
+      name: "Delta Forum",
+      description: `Donation for ${causeLabels[cause] || "General Fund"}`,
+      image: "/logo.png",
+      prefill: {
+        name: formData.name,
+        email: formData.email,
+        contact: formData.phone,
+      },
+      notes: {
+        cause: cause,
+        pan: formData.pan || "Not provided",
+      },
+      theme: {
+        color: "#E97F2C",
+      },
+      handler: function (response: any) {
+        setIsProcessing(false);
+        toast({
+          title: "Thank You for Your Generosity! 🙏",
+          description: `Payment successful! ID: ${response.razorpay_payment_id}`,
+        });
+        // Reset form
+        setFormData({ name: "", email: "", phone: "", pan: "" });
+        setAmount(1000);
+        setCause("");
+      },
+      modal: {
+        ondismiss: function () {
+          setIsProcessing(false);
+        },
+      },
+    };
+
+    try {
+      const razorpay = new window.Razorpay(options);
+      razorpay.on("payment.failed", function (response: any) {
+        setIsProcessing(false);
+        toast({
+          title: "Payment Failed",
+          description: response.error.description || "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+      });
+      razorpay.open();
+    } catch (error) {
+      setIsProcessing(false);
+      toast({
+        title: "Error",
+        description: "Could not initialize payment. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -79,7 +184,7 @@ const DonatePage = () => {
                   Donation Details
                 </h2>
                 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handlePayment} className="space-y-6">
                   {/* Amount Selection */}
                   <div>
                     <Label className="text-base font-semibold mb-4 block">Select Amount (₹)</Label>
@@ -172,9 +277,24 @@ const DonatePage = () => {
                     </div>
                   </div>
 
-                  <Button type="submit" variant="hero" size="xl" className="w-full">
-                    <Heart className="h-5 w-5 mr-2" />
-                    Donate ₹{(typeof amount === "number" ? amount : parseInt(customAmount) || 0).toLocaleString()}
+                  <Button 
+                    type="submit" 
+                    variant="hero" 
+                    size="xl" 
+                    className="w-full"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Heart className="h-5 w-5 mr-2" />
+                        Donate ₹{getFinalAmount().toLocaleString()}
+                      </>
+                    )}
                   </Button>
                 </form>
 
