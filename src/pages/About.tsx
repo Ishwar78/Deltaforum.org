@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Users, Target, Eye, Award } from "lucide-react";
-import logo from "@/assets/logo.png";
 
 const team = [
   { name: "Jai Parkash", role: "Founder & President", initials: "JP" },
@@ -14,44 +14,13 @@ const team = [
 const AboutPage = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                About Us
-              </span>
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-                Our Story
-              </h1>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                Delta Forum Society was established with a vision to transform lives through education 
-                and environmental conservation. Based in Rohtak, Haryana, we work tirelessly to 
-                create opportunities for underprivileged children and protect our natural resources.
-              </p>
-              <Button variant="hero" size="lg" asChild>
-                <Link to="/donate">
-                  <Heart className="h-5 w-5 mr-2" />
-                  Support Our Mission
-                </Link>
-              </Button>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex justify-center"
-            >
-              <img src={logo} alt="Delta Forum Society" className="w-72 h-72 object-contain animate-float" />
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920&q=80"
+        title="About Us"
+        subtitle="Our Story"
+        description="Delta Forum Society was established with a vision to transform lives through education and environmental conservation in Rohtak, Haryana."
+      />
 
       {/* Mission & Vision */}
       <section className="section-padding bg-card">

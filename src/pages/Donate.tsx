@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -157,27 +158,13 @@ const DonatePage = () => {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Make a Difference
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-              Donate Today
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Your contribution helps us educate children, empower women, and protect our environment. 
-              Every rupee counts towards building a better future.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1920&q=80"
+        title="Donate Today"
+        subtitle="Make a Difference"
+        description="Your contribution helps us educate children, empower women, and protect our environment. Every rupee counts towards building a better future."
+      />
 
       {/* Donation Form */}
       <section className="section-padding">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,27 +29,13 @@ const ContactPage = () => {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Get in Touch
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-              Contact Us
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Have questions or want to get involved? We'd love to hear from you. 
-              Reach out to us through any of the channels below.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&q=80"
+        title="Contact Us"
+        subtitle="Get in Touch"
+        description="Have questions or want to get involved? We'd love to hear from you."
+      />
 
       {/* Contact Section */}
       <section className="section-padding">

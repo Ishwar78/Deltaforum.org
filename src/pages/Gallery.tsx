@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ZoomIn } from "lucide-react";
 
@@ -92,27 +93,13 @@ const GalleryPage = () => {
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Our Journey in Pictures
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-              Photo Gallery
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Explore moments from our initiatives — education programs, tree plantation drives, 
-              women empowerment workshops, and community events.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80"
+        title="Photo Gallery"
+        subtitle="Our Journey in Pictures"
+        description="Explore moments from our initiatives — education programs, tree plantation drives, women empowerment workshops, and community events."
+      />
 
       {/* Gallery */}
       <section className="section-padding">
