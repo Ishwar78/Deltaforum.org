@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ const causeLabels: Record<string, string> = {
 };
 
 const DonatePage = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [amount, setAmount] = useState<number | string>(1000);
   const [customAmount, setCustomAmount] = useState("");
@@ -108,14 +110,22 @@ const DonatePage = () => {
       },
       handler: function (response: any) {
         setIsProcessing(false);
-        toast({
-          title: "Thank You for Your Generosity! 🙏",
-          description: `Payment successful! ID: ${response.razorpay_payment_id}`,
+        // Navigate to success page with donation data
+        navigate("/donation-success", {
+          state: {
+            paymentId: response.razorpay_payment_id,
+            amount: finalAmount,
+            cause: causeLabels[cause] || "General Fund",
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            pan: formData.pan || undefined,
+            date: new Date().toLocaleString("en-IN", {
+              dateStyle: "full",
+              timeStyle: "short",
+            }),
+          },
         });
-        // Reset form
-        setFormData({ name: "", email: "", phone: "", pan: "" });
-        setAmount(1000);
-        setCause("");
       },
       modal: {
         ondismiss: function () {
