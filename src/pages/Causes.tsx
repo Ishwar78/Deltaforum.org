@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { TreePine, GraduationCap, Users2, Leaf, Heart, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ const causes = [
     impact: ["50,000+ trees planted", "100+ villages covered", "Carbon footprint reduction"],
     color: "text-secondary",
     bgColor: "bg-secondary/10",
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80",
   },
   {
     icon: GraduationCap,
@@ -20,6 +22,7 @@ const causes = [
     impact: ["5,000+ girls educated", "Scholarship programs", "Career counseling"],
     color: "text-primary",
     bgColor: "bg-primary/10",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
   },
   {
     icon: Users2,
@@ -28,6 +31,7 @@ const causes = [
     impact: ["1,000+ women trained", "Self-help groups", "Micro-enterprise support"],
     color: "text-secondary",
     bgColor: "bg-secondary/10",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80",
   },
   {
     icon: Leaf,
@@ -36,33 +40,20 @@ const causes = [
     impact: ["Clean water projects", "Sustainable farming", "Waste reduction"],
     color: "text-primary",
     bgColor: "bg-primary/10",
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80",
   },
 ];
 
 const CausesPage = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Our Mission
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-              Our Causes
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              We focus on sustainable initiatives that create lasting impact in education, 
-              women empowerment, and environmental conservation.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80"
+        title="Our Causes"
+        subtitle="Our Mission"
+        description="We focus on sustainable initiatives that create lasting impact in education, women empowerment, and environmental conservation."
+      />
 
       {/* Causes Detail */}
       <section className="section-padding">
@@ -103,10 +94,14 @@ const CausesPage = () => {
                     </Link>
                   </Button>
                 </div>
-                <div className={`${cause.bgColor} rounded-3xl p-8 aspect-video flex items-center justify-center ${
+                <div className={`rounded-3xl overflow-hidden aspect-video ${
                   index % 2 === 1 ? "lg:order-1" : ""
                 }`}>
-                  <cause.icon className={`h-32 w-32 ${cause.color} opacity-50`} />
+                  <img 
+                    src={cause.image} 
+                    alt={cause.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </motion.div>
             ))}

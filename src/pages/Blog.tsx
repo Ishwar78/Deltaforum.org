@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
+import PageBanner from "@/components/ui/PageBanner";
 import { Calendar, Tag, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -57,27 +58,13 @@ const blogPosts = [
 const BlogPage = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="section-padding bg-gradient-hero pt-32">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Latest Updates
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-3 mb-6">
-              Our Blog
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Stay updated with our latest activities, events, success stories, 
-              and the impact we're creating together.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Banner */}
+      <PageBanner
+        image="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1920&q=80"
+        title="Our Blog"
+        subtitle="Latest Updates"
+        description="Stay updated with our latest activities, events, success stories, and the impact we're creating together."
+      />
 
       {/* Blog Grid */}
       <section className="section-padding">
